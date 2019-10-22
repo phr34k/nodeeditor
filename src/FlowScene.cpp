@@ -194,6 +194,22 @@ deleteConnection(Connection& connection)
 
 Node&
 FlowScene::
+createNodeInternal(std::unique_ptr<NodeDataModel> && dataModel, QUuid id)
+{
+    auto node = detail::make_unique<Node>(id, std::move(dataModel));
+    auto ngo = detail::make_unique<NodeGraphicsObject>(*this, *node);
+
+    node->setGraphicsObject(std::move(ngo));
+
+    auto nodePtr = node.get();
+    _nodes[node->id()] = std::move(node);
+
+    nodeCreated(*nodePtr);
+    return *nodePtr;
+}
+
+Node&
+FlowScene::
 createNode(std::unique_ptr<NodeDataModel> && dataModel)
 {
   auto node = detail::make_unique<Node>(std::move(dataModel));

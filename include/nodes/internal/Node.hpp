@@ -32,7 +32,7 @@ class NODE_EDITOR_PUBLIC Node
   Q_OBJECT
 
 public:
-
+  Node(QUuid uuid, std::unique_ptr<NodeDataModel> && dataModel);
   /// NodeDataModel should be an rvalue and is moved into the Node
   Node(std::unique_ptr<NodeDataModel> && dataModel);
 

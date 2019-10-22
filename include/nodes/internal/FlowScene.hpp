@@ -38,6 +38,10 @@ public:
 
   ~FlowScene();
 
+protected:
+
+    Node&createNodeInternal(std::unique_ptr<NodeDataModel> && dataModel, QUuid id);
+
 public:
 
   std::shared_ptr<Connection>
@@ -134,7 +138,7 @@ Q_SIGNALS:
 
   void nodeContextMenu(Node& n, const QPointF& pos);
 
-private:
+protected:
 
   using SharedConnection = std::shared_ptr<Connection>;
   using UniqueNode       = std::unique_ptr<Node>;

@@ -24,6 +24,23 @@ using QtNodes::PortIndex;
 using QtNodes::PortType;
 
 Node::
+Node(QUuid uuid, std::unique_ptr<NodeDataModel> && dataModel)
+    : _uid(uuid)
+    , _nodeDataModel(std::move(dataModel))
+    , _nodeState(_nodeDataModel)
+    , _nodeGeometry(_nodeDataModel)
+    , _nodeGraphicsObject(nullptr)
+{
+    _nodeGeometry.recalculateSize();
+
+    // propagate data: model => node
+    connect(_nodeDataModel.get(), &NodeDataModel::dataUpdated,
+        this, &Node::onDataUpdated);
+
+    connect(_nodeDataModel.get(), &NodeDataModel::embeddedWidgetSizeUpdated,
+        this, &Node::onNodeSizeUpdated);
+}
+Node::
 Node(std::unique_ptr<NodeDataModel> && dataModel)
   : _uid(QUuid::createUuid())
   , _nodeDataModel(std::move(dataModel))

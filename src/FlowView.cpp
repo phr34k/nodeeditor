@@ -251,6 +251,12 @@ scaleDown()
   scale(factor, factor);
 }
 
+void
+FlowView::
+scaleUniform(int value)
+{
+    setTransform(QTransform::fromScale(value / 100.0f, value / 100.0f), false);
+}
 
 void
 FlowView::

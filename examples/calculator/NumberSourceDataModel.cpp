@@ -112,5 +112,47 @@ std::shared_ptr<NodeData>
 NumberSourceDataModel::
 outData(PortIndex)
 {
-  return _number;
+    return _number;
+}
+
+
+NodeDataType DataSource::dataType(PortType portType, PortIndex portIndex) const
+{
+    if (portType == PortType::In)
+    {
+        if (portIndex >= internalTypes.size())
+        {
+            portIndex = portIndex - internalTypes.size();
+            return NodeDataType{ this->internalTypesIn[portIndex], this->internalPortsIn[portIndex] };
+        }
+        else
+        {
+            return NodeDataType{ this->internalTypes[portIndex], this->internalPorts[portIndex] };
+        }
+    }
+    else
+    {
+        if (portIndex >= internalTypes.size())
+        {
+            portIndex = portIndex - internalTypes.size();
+            return NodeDataType{ this->internalTypesOut[portIndex], this->internalPortsOut[portIndex] };
+        }
+        else
+        {
+            return NodeDataType{ this->internalTypes[portIndex], this->internalPorts[portIndex] };
+        }
+    }
+}
+
+std::shared_ptr<NodeData> DataSource::outData(PortIndex port)
+{
+    if (port >= internalTypes.size())
+    {
+        port = port - internalTypes.size();
+        return this->internalDataOut[port];
+    }
+    else
+    {
+        return this->internalData[port];
+    }    
 }

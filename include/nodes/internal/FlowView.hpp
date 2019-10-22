@@ -30,8 +30,8 @@ public:
 public Q_SLOTS:
 
   void scaleUp();
-
   void scaleDown();
+  void scaleUniform(int value);
 
   void deleteSelectedNodes();
 
